@@ -29,37 +29,37 @@ namespace WritingPlatform.BusinessLayer.BusinessObjects
 
         public UserBO GetUserById(int? id)
         {
-            UserBO genre;
+            UserBO user;
 
             using (var unitOfWork = unitOfWorkFactory.Create())
             {
-                genre = unitOfWork.UserUoWRepository.GetAll().Where(a => a.Id == id).Select(item => mapper.Map<UserBO>(item)).FirstOrDefault();
+                user = unitOfWork.UserUoWRepository.GetAll().Where(a => a.Id == id).Select(item => mapper.Map<UserBO>(item)).FirstOrDefault();
             }
-            return genre;
+            return user;
         }
 
         public List<UserBO> GetUsersList()
         {
-            List<UserBO> genre = new List<UserBO>();
+            List<UserBO> user = new List<UserBO>();
 
             using (var unitOfWork = unitOfWorkFactory.Create())
             {
-                genre = unitOfWork.UserUoWRepository.GetAll().Select(item => mapper.Map<UserBO>(item)).ToList();
+                user = unitOfWork.UserUoWRepository.GetAll().Select(item => mapper.Map<UserBO>(item)).ToList();
             }
-            return genre;
+            return user;
         }
 
         void Create(IUnitOfWork unitOfWork)
         {
-            var role = mapper.Map<Users>(this);
-            unitOfWork.UserUoWRepository.Create(role);
+            var user = mapper.Map<Users>(this);
+            unitOfWork.UserUoWRepository.Create(user);
             unitOfWork.Save();
         }
 
         void Update(IUnitOfWork unitOfWork)
         {
-            var genre = mapper.Map<Users>(this);
-            unitOfWork.UserUoWRepository.Update(genre);
+            var user = mapper.Map<Users>(this);
+            unitOfWork.UserUoWRepository.Update(user);
             unitOfWork.Save();
         }
 
@@ -82,7 +82,10 @@ namespace WritingPlatform.BusinessLayer.BusinessObjects
         {
             using (var unitOfWork = unitOfWorkFactory.Create())
             {
-                unitOfWork.UserUoWRepository.Delete(id);
+                //unitOfWork.UserUoWRepository.Delete(id);
+                var user = mapper.Map<Users>(this);
+                user.IsDelete = true;
+                unitOfWork.UserUoWRepository.Update(user);
                 unitOfWork.Save();
             }
         }

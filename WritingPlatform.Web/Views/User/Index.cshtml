@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Пользователи";
+}
+
+<h2>Роли</h2>
+
+@Html.ActionLink("Создать пользователя", "CreateAndEdit", "User")
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Логин</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Роль</th>
+            <th scope="col">IsDelete</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            List<WritingPlatform.Web.Models.RoleViewModel> roles = ViewBag.Roles;
+        }
+
+        @foreach (var item in ViewBag.Users)
+        {
+            if (@item.IsDelete == false)
+            {
+                string nameRole = roles.Where(u => u.Id == item.RoleId).First().NameRole;
+                <tr>
+                    <td scope="row">@item.LoginUser</td>
+                    <td scope="row">@item.EmailUser</td>
+                    <td scope="row">@nameRole</td>
+                    <td scope="row">@item.IsDelete</td>
+                    <td scope="row">@Html.ActionLink("Редактировать пользователя", "CreateAndEdit", "User", new { id = @item.Id }, null)</td>
+                    <td scope="row">@Html.ActionLink("Удалить пользователя", "Delete", "User", new { id = @item.Id }, null)</td>
+                </tr>
+            }
+        }
+</table>

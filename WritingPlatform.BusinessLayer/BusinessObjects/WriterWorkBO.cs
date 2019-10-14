@@ -29,37 +29,40 @@ namespace WritingPlatform.BusinessLayer.BusinessObjects
 
         public WriterWorkBO GetWriterWorkById(int? id)
         {
-            WriterWorkBO genre;
+            WriterWorkBO writerWork;
 
             using (var unitOfWork = unitOfWorkFactory.Create())
             {
-                genre = unitOfWork.WriterWorkUoWRepository.GetAll().Where(a => a.Id == id).Select(item => mapper.Map<WriterWorkBO>(item)).FirstOrDefault();
+                writerWork = unitOfWork.WriterWorkUoWRepository.GetAll().Where(a => a.Id == id).Select(item => mapper.Map<WriterWorkBO>(item)).FirstOrDefault();
             }
-            return genre;
+            return writerWork;
         }
 
         public List<WriterWorkBO> GetWritersWorksList()
         {
-            List<WriterWorkBO> genre = new List<WriterWorkBO>();
+            List<WriterWorkBO> writersWorks = new List<WriterWorkBO>();
 
             using (var unitOfWork = unitOfWorkFactory.Create())
             {
-                genre = unitOfWork.WriterWorkUoWRepository.GetAll().Select(item => mapper.Map<WriterWorkBO>(item)).ToList();
+                writersWorks = unitOfWork.WriterWorkUoWRepository.GetAll().Select(item => mapper.Map<WriterWorkBO>(item)).ToList();
             }
-            return genre;
+            return writersWorks;
         }
 
         void Create(IUnitOfWork unitOfWork)
         {
-            var role = mapper.Map<WritersWorks>(this);
-            unitOfWork.WriterWorkUoWRepository.Create(role);
+            var writerWork = mapper.Map<WritersWorks>(this);
+            writerWork.PublicationDate = DateTime.Now;
+            unitOfWork.WriterWorkUoWRepository.Create(writerWork);
             unitOfWork.Save();
         }
 
         void Update(IUnitOfWork unitOfWork)
         {
-            var genre = mapper.Map<WritersWorks>(this);
-            unitOfWork.WriterWorkUoWRepository.Update(genre);
+            var writerWork = mapper.Map<WritersWorks>(this);
+            writerWork.PublicationDate = this.PublicationDate;
+
+            unitOfWork.WriterWorkUoWRepository.Update(writerWork);
             unitOfWork.Save();
         }
 

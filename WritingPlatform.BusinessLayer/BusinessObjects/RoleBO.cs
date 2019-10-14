@@ -27,24 +27,24 @@ namespace WritingPlatform.BusinessLayer.BusinessObjects
 
         public RoleBO GetRoleById(int? id)
         {
-            RoleBO genre;
+            RoleBO role;
 
             using (var unitOfWork = unitOfWorkFactory.Create())
             {
-                genre = unitOfWork.RoleUoWRepository.GetAll().Where(a => a.Id == id).Select(item => mapper.Map<RoleBO>(item)).FirstOrDefault();
+                role = unitOfWork.RoleUoWRepository.GetAll().Where(a => a.Id == id).Select(item => mapper.Map<RoleBO>(item)).FirstOrDefault();
             }
-            return genre;
+            return role;
         }
 
         public List<RoleBO> GetRolesList()
         {
-            List<RoleBO> genre = new List<RoleBO>();
+            List<RoleBO> roles = new List<RoleBO>();
 
             using (var unitOfWork = unitOfWorkFactory.Create())
             {
-                genre = unitOfWork.RoleUoWRepository.GetAll().Select(item => mapper.Map<RoleBO>(item)).ToList();
+                roles = unitOfWork.RoleUoWRepository.GetAll().Select(item => mapper.Map<RoleBO>(item)).ToList();
             }
-            return genre;
+            return roles;
         }
 
         void Create(IUnitOfWork unitOfWork)
@@ -56,8 +56,8 @@ namespace WritingPlatform.BusinessLayer.BusinessObjects
 
         void Update(IUnitOfWork unitOfWork)
         {
-            var genre = mapper.Map<Roles>(this);
-            unitOfWork.RoleUoWRepository.Update(genre);
+            var role = mapper.Map<Roles>(this);
+            unitOfWork.RoleUoWRepository.Update(role);
             unitOfWork.Save();
         }
 

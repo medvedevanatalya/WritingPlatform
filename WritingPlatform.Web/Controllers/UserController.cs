@@ -20,18 +20,20 @@ namespace WritingPlatform.Web.Controllers
 
         public ActionResult Index()
         {
-            var usersBO = DependencyResolver.Current.GetService<UserBO>().GetUsersList().OrderBy(n => n.LoginUser);
+            var usersBO = DependencyResolver.Current.GetService<UserBO>().GetUsersList();
             var rolesBO = DependencyResolver.Current.GetService<RoleBO>().GetRolesList();
+
             ViewBag.Users = usersBO.Select(a => mapper.Map<UserViewModel>(a)).ToList();
             ViewBag.Roles = rolesBO.Select(a => mapper.Map<RoleViewModel>(a)).ToList();
+ 
 
             return View();
         }
 
         public ActionResult CreateAndEdit(int? id)
         {
-            var usersBO = DependencyResolver.Current.GetService<UserBO>();
             var rolesBO = DependencyResolver.Current.GetService<RoleBO>();
+            var usersBO = DependencyResolver.Current.GetService<UserBO>();
 
             var usersModel = mapper.Map<UserViewModel>(usersBO);
 

@@ -36,13 +36,13 @@ namespace WritingPlatform.BusinessLayer.BusinessObjects
 
         public List<GenreBO> GetGenresList()
         {
-            List<GenreBO> genre = new List<GenreBO>();
+            List<GenreBO> genres = new List<GenreBO>();
 
             using (var unitOfWork = unitOfWorkFactory.Create())
             {
-                genre = unitOfWork.GenreUoWRepository.GetAll().Select(item => mapper.Map<GenreBO>(item)).ToList();
+                genres = unitOfWork.GenreUoWRepository.GetAll().Select(item => mapper.Map<GenreBO>(item)).ToList();
             }
-            return genre;
+            return genres;
         }
 
         void Create(IUnitOfWork unitOfWork)
