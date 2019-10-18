@@ -152,6 +152,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentUserController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -163,6 +164,8 @@
     </Compile>
     <Compile Include="Models\CommentUserViewModel.cs" />
     <Compile Include="Models\GenreViewModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\WriterWorkViewModel.cs" />
@@ -210,12 +213,15 @@
     <Content Include="Views\Role\CreateAndEdit.cshtml" />
     <Content Include="Views\WriterWork\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\CreateAndEdit.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\WriterWork\CreateAndEdit.cshtml" />
+    <Content Include="Views\CommentUser\Index.cshtml" />
+    <Content Include="Views\CommentUser\CreateAndEdit.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\CommentUser\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -26,34 +26,34 @@ namespace WritingPlatform.Web.Controllers
             ViewBag.Users = usersBO.Select(a => mapper.Map<UserViewModel>(a)).ToList();
             ViewBag.Roles = rolesBO.Select(a => mapper.Map<RoleViewModel>(a)).ToList();
  
-
             return View();
         }
 
-        public ActionResult CreateAndEdit(int? id)
+        public ActionResult Edit(int? id)
         {
             var rolesBO = DependencyResolver.Current.GetService<RoleBO>();
             var usersBO = DependencyResolver.Current.GetService<UserBO>();
 
             var usersModel = mapper.Map<UserViewModel>(usersBO);
 
-            if (id == null)
-            {
-                ViewBag.Header = "Создание Пользователя";
-            }
-            else
-            {
+            //if (id == null)
+            //{
+            //    //ViewBag.Header = "Создание Пользователя";
+            //    //return RedirectToActionPermanent("Register", "Account");                                      
+            //}      
+            //else
+            //{
                 var usersBOList = usersBO.GetUserById(id);
                 usersModel = mapper.Map<UserViewModel>(usersBOList);
                 ViewBag.Header = "Редактирование Пользователя";
-            }
+            //}
             ViewBag.Roles = new SelectList(rolesBO.GetRolesList().Select(m => mapper.Map<RoleViewModel>(m)).ToList(), "Id", "NameRole");
 
             return View(usersModel);
         }
 
         [HttpPost]
-        public ActionResult CreateAndEdit(UserViewModel usersModel)
+        public ActionResult Edit(UserViewModel usersModel)
         {
             var userBO = mapper.Map<UserBO>(usersModel);
             if (ModelState.IsValid)

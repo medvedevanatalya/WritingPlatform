@@ -8,7 +8,7 @@ using CompareAttribute = System.ComponentModel.DataAnnotations.CompareAttribute;
 
 namespace WritingPlatform.Web.Models
 {
-    public class UserViewModel
+    public class RegisterModel
     {
         public int Id { get; set; }
 
@@ -25,12 +25,12 @@ namespace WritingPlatform.Web.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
+        [Compare("PasswordUser", ErrorMessage = "Пароли не совпадают")]
         [Display(Name = "Подтвердите пароль")]
         public string PasswordConfirm { get; set; }
 
         [Required(ErrorMessage = "Поле E-mail обязательно к заполнению")]
-        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Некорректный адрес")]
+        [StringLength(20, MinimumLength = 3, ErrorMessage = "Длина строки не менее 3-х символов и не более 20")]
         [Display(Name = "E-mail")]
         public string EmailUser { get; set; }
 

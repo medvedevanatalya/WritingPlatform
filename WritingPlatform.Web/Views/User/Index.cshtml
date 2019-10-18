@@ -2,9 +2,9 @@
     ViewBag.Title = "Пользователи";
 }
 
-<h2>Роли</h2>
+<h2>Список пользователей</h2>
 
-@Html.ActionLink("Создать пользователя", "CreateAndEdit", "User")
+@Html.ActionLink("Регистрация нового пользователя", "Register", "Account")
 
 <table class="table table-striped">
     <thead>
@@ -23,7 +23,7 @@
 
         @foreach (var item in ViewBag.Users)
         {
-            if (@item.IsDelete == false)
+            if (@item.IsDelete != true)
             {
                 string nameRole = roles.Where(u => u.Id == item.RoleId).First().NameRole;
                 <tr>
@@ -31,7 +31,7 @@
                     <td scope="row">@item.EmailUser</td>
                     <td scope="row">@nameRole</td>
                     <td scope="row">@item.IsDelete</td>
-                    <td scope="row">@Html.ActionLink("Редактировать пользователя", "CreateAndEdit", "User", new { id = @item.Id }, null)</td>
+                    <td scope="row">@Html.ActionLink("Редактировать пользователя", "Edit", "User", new { id = @item.Id }, null)</td>
                     <td scope="row">@Html.ActionLink("Удалить пользователя", "Delete", "User", new { id = @item.Id }, null)</td>
                 </tr>
             }

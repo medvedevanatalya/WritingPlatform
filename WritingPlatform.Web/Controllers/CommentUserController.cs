@@ -18,10 +18,12 @@ namespace WritingPlatform.Web.Controllers
         }
         public ActionResult Index()
         {
-            var writerWorkBO = DependencyResolver.Current.GetService<CommentUserBO>().GetCommentsUsersList();
+            var commentUserBO = DependencyResolver.Current.GetService<CommentUserBO>().GetCommentsUsersList();
             var usersBO = DependencyResolver.Current.GetService<UserBO>().GetUsersList();
+            var writerWorkBO = DependencyResolver.Current.GetService<WriterWorkBO>().GetWritersWorksList();
 
-            ViewBag.WritersWorks = writerWorkBO.Select(m => mapper.Map<CommentUserViewModel>(m)).ToList();
+            ViewBag.CommentsUsers = commentUserBO.Select(m => mapper.Map<CommentUserViewModel>(m)).ToList();
+            ViewBag.WritersWorks = writerWorkBO.Select(m => mapper.Map<WriterWorkViewModel>(m)).ToList();
             ViewBag.Users = usersBO.Select(a => mapper.Map<UserViewModel>(a)).ToList();
 
 
@@ -31,44 +33,46 @@ namespace WritingPlatform.Web.Controllers
         public ActionResult CreateAndEdit(int? id)
         {
             var usersBO = DependencyResolver.Current.GetService<UserBO>();
+            var writerWorkBO = DependencyResolver.Current.GetService<WriterWorkBO>();
 
-            var writerWorkBO = DependencyResolver.Current.GetService<CommentUserBO>();
-            var writersWorksModel = mapper.Map<CommentUserViewModel>(writerWorkBO);
+            var commentUserBO = DependencyResolver.Current.GetService<CommentUserBO>();
+            var commentsUsersModel = mapper.Map<CommentUserViewModel>(commentUserBO);
 
             if (id == null)
             {
-                ViewBag.Header = "Создание Комментария";
+                ViewBag.Header = "Создание комментария";
             }
             else
             {
-                var writersWorksBOList = writerWorkBO.GetCommentUserById(id);
-                writersWorksModel = mapper.Map<CommentUserViewModel>(writersWorksBOList);
+                var writersWorksBOList = commentUserBO.GetCommentUserById(id);
+                commentsUsersModel = mapper.Map<CommentUserViewModel>(writersWorksBOList);
                 ViewBag.Header = "Редактирование комментария";
             }
             ViewBag.Users = new SelectList(usersBO.GetUsersList().Select(m => mapper.Map<UserViewModel>(m)).ToList(), "Id", "LoginUser");
+            ViewBag.WritersWorks = new SelectList(writerWorkBO.GetWritersWorksList().Select(m => mapper.Map<WriterWorkViewModel>(m)).ToList(), "Id", "TitleWork");
 
-            return View(writersWorksModel);
+            return View(commentsUsersModel);
         }
 
         [HttpPost]
-        public ActionResult CreateAndEdit(CommentUserViewModel writersWorksModel)
+        public ActionResult CreateAndEdit(CommentUserViewModel commentsUsersModel)
         {
-            var writerWorkBO = mapper.Map<CommentUserBO>(writersWorksModel);
+            var commentUserBO = mapper.Map<CommentUserBO>(commentsUsersModel);
             if (ModelState.IsValid)
             {
-                writerWorkBO.Save();
+                commentUserBO.Save();
                 return RedirectToActionPermanent("Index", "CommentUser");
             }
             else
             {
-                return View(writersWorksModel);
+                return View(commentsUsersModel);
             }
         }
 
         public ActionResult Delete(int id)
         {
-            var writerWork = DependencyResolver.Current.GetService<CommentUserBO>().GetCommentUserById(id);
-            writerWork.Delete(id);
+            var commentUser = DependencyResolver.Current.GetService<CommentUserBO>().GetCommentUserById(id);
+            commentUser.Delete(id);
 
             return RedirectToActionPermanent("Index", "CommentUser");
         }

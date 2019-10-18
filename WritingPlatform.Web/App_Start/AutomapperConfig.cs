@@ -44,7 +44,17 @@ namespace WritingPlatform.Web.App_Start
                 cfg.CreateMap<UserBO, UserViewModel>()
                 .ConstructUsing(item => DependencyResolver.Current.GetService<UserViewModel>());
 
-                cfg.CreateMap<UserViewModel, UserBO>()
+                cfg.CreateMap<UserBO, RegisterModel>()
+               .ConstructUsing(item => DependencyResolver.Current.GetService<RegisterModel>()); 
+                cfg.CreateMap<UserBO, LoginModel>()
+               .ConstructUsing(item => DependencyResolver.Current.GetService<LoginModel>());
+
+                cfg.CreateMap<UserViewModel, UserBO>() 
+                .ConstructUsing(item => DependencyResolver.Current.GetService<UserBO>());
+
+                cfg.CreateMap<RegisterModel, UserBO>() 
+                .ConstructUsing(item => DependencyResolver.Current.GetService<UserBO>());
+                cfg.CreateMap<LoginModel, UserBO>()
                 .ConstructUsing(item => DependencyResolver.Current.GetService<UserBO>());
 
                 cfg.CreateMap<UserBO, Users>()

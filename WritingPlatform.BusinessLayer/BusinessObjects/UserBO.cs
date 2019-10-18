@@ -38,6 +38,17 @@ namespace WritingPlatform.BusinessLayer.BusinessObjects
             return user;
         }
 
+        public UserBO GetUserByLogin(string login)
+        {
+            UserBO user;
+
+            using (var unitOfWork = unitOfWorkFactory.Create())
+            {
+                user = unitOfWork.UserUoWRepository.GetAll().Where(a => a.LoginUser == login).Select(item => mapper.Map<UserBO>(item)).FirstOrDefault();
+            }
+            return user;
+        }
+
         public List<UserBO> GetUsersList()
         {
             List<UserBO> user = new List<UserBO>();
@@ -52,6 +63,7 @@ namespace WritingPlatform.BusinessLayer.BusinessObjects
         void Create(IUnitOfWork unitOfWork)
         {
             var user = mapper.Map<Users>(this);
+            user.IsDelete = false;
             unitOfWork.UserUoWRepository.Create(user);
             unitOfWork.Save();
         }

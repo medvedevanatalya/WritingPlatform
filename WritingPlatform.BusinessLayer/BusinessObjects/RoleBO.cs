@@ -36,6 +36,17 @@ namespace WritingPlatform.BusinessLayer.BusinessObjects
             return role;
         }
 
+        public RoleBO GetRoleByName(string name)
+        {
+            RoleBO role;
+
+            using (var unitOfWork = unitOfWorkFactory.Create())
+            {
+                role = unitOfWork.RoleUoWRepository.GetAll().Where(a => a.NameRole == name).Select(item => mapper.Map<RoleBO>(item)).FirstOrDefault();
+            }
+            return role;
+        }
+
         public List<RoleBO> GetRolesList()
         {
             List<RoleBO> roles = new List<RoleBO>();
