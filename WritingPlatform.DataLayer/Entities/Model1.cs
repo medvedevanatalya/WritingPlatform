@@ -11,7 +11,6 @@ namespace WritingPlatform.DataLayer
             : base("name=Model1")
         {
         }
-
         public virtual DbSet<CommentsUsers> CommentsUsers { get; set; }
         public virtual DbSet<Genres> Genres { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }

@@ -37,15 +37,20 @@ namespace WritingPlatform.Web.Controllers
             var writerWorkBO = DependencyResolver.Current.GetService<WriterWorkBO>();
             var writersWorksModel = mapper.Map<WriterWorkViewModel>(writerWorkBO);
 
+            var commentsBO = DependencyResolver.Current.GetService<CommentUserBO>();
+
             if (id == null)
             {
                 ViewBag.Header = "Создание произведения";
             }
             else
             {
-                var writersWorksBOList = writerWorkBO.GetWriterWorkById(id);
-                writersWorksModel = mapper.Map<WriterWorkViewModel>(writersWorksBOList);
+                var writerWork = writerWorkBO.GetWriterWorkById(id);
+                writersWorksModel = mapper.Map<WriterWorkViewModel>(writerWork);
                 ViewBag.Header = "Редактирование произведения";
+
+                var comments = commentsBO.GetCommentsUsersList().Where(x => x.WriterWorkId == writerWork.Id).ToList();
+                ViewBag.Comments = new SelectList(comments.Select(m=>Map<CommentUserViewModel>(m)).ToList()
             }
             ViewBag.Users = new SelectList(usersBO.GetUsersList().Select(m => mapper.Map<UserViewModel>(m)).ToList(), "Id", "LoginUser");
             ViewBag.Genres = new SelectList(genresBO.GetGenresList().Select(m => mapper.Map<GenreViewModel>(m)).ToList(), "Id", "NameGenre");

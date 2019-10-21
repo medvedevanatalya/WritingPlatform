@@ -1,6 +1,10 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+
+    /*добавлено*/
+    color: coral;
+    background-color: floralwhite;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +25,32 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+
+/*добавлено*/
+.navbar-nav > li > label {
+    color: coral;
+    padding: 15px;
+}
+
+/*добавлено*/
+.navbar-header{
+     background-color: darkred;
+     border-color: darkred;
+}
+
+/*добавлено*/
+.navbar-nav > li > a {
+    color: lightyellow;
+}
+
+/*добавлено*/
+.navbar-brand {
+    color: coral;
+}
+
+/*добавлено*/
+.jumbotron {
+    background-color: peachpuff;
 }
