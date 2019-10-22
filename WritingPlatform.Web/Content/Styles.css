@@ -36,3 +36,8 @@
    left: -15px;
    top: 15px;
 }
+
+label{
+    color: darkred;
+    padding: 15px;
+}

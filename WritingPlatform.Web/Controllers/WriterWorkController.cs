@@ -49,6 +49,7 @@ namespace WritingPlatform.Web.Controllers
             return View(writerWorkModel);
         }
 
+        [Authorize]
         public ActionResult CreateAndEdit(int? id)
         {
             var usersBO = DependencyResolver.Current.GetService<UserBO>();
@@ -74,12 +75,17 @@ namespace WritingPlatform.Web.Controllers
             return View(writersWorksModel);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult CreateAndEdit(WriterWorkViewModel writersWorksModel)
         {
             var writerWorkBO = mapper.Map<WriterWorkBO>(writersWorksModel);
+            var usersBO = DependencyResolver.Current.GetService<UserBO>();
+            var userId = usersBO.GetUserByLogin(User.Identity.Name).Id;
+
             if (ModelState.IsValid)
             {
+                writerWorkBO.UserId = userId;
                 writerWorkBO.Save();
                 return RedirectToActionPermanent("Index", "WriterWork");
             }
@@ -89,6 +95,7 @@ namespace WritingPlatform.Web.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult Delete(int id)
         {
             var writerWork = DependencyResolver.Current.GetService<WriterWorkBO>().GetWriterWorkById(id);

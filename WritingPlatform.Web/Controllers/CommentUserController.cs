@@ -75,31 +75,38 @@ namespace WritingPlatform.Web.Controllers
             return RedirectToActionPermanent("Index", "CommentUser");
         }
 
-        public ActionResult Create(int writerWorkId)
+        [ChildActionOnly]
+        public ActionResult _Create(int writerWorkId)
         {
-            var usersBO = DependencyResolver.Current.GetService<UserBO>();
+            //var usersBO = DependencyResolver.Current.GetService<UserBO>();
             var commentUserBO = DependencyResolver.Current.GetService<CommentUserBO>();
            
             var commentsUsersModel = mapper.Map<CommentUserViewModel>(commentUserBO);
 
-            var userId = usersBO.GetUserByLogin(User.Identity.Name).Id;
+            //var userId = usersBO.GetUserByLogin(User.Identity.Name).Id;
 
-            commentsUsersModel.WriterWorkId = writerWorkId;
-            commentsUsersModel.UserId = userId;
+            //commentsUsersModel.WriterWorkId = writerWorkId;
+            //commentsUsersModel.UserId = userId;
 
-            return View(commentsUsersModel);
+            return PartialView("_Create", commentsUsersModel);
         }
 
         [HttpPost]
-        public ActionResult Create(CommentUserViewModel commentsUsersModel)
+        public ActionResult _Create(CommentUserViewModel commentsUsersModel)
         {
-            var newComment = mapper.Map<CommentUserBO>(commentsUsersModel);
+            var usersBO = DependencyResolver.Current.GetService<UserBO>();
+            var userId = usersBO.GetUserByLogin(User.Identity.Name).Id;
+            int writerWorkId = commentsUsersModel.WriterWorkId;
+            var commentUserBO = mapper.Map<CommentUserBO>(commentsUsersModel);
+
             if(ModelState.IsValid)
             {
-                newComment.Save();
+                commentUserBO.UserId = userId;
+                commentUserBO.WriterWorkId = writerWorkId;
+                commentUserBO.Save();
             }
             ////return RedirectToActionPermanent("Index", "CommentUser");
-            return View(newComment);
+            return View();
         }
     }
 }

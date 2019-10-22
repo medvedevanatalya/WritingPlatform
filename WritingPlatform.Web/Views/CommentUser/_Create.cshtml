@@ -5,8 +5,14 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-horizontal">
         <h2>Добавить комментарий</h2>
-        @Html.TextAreaFor(model => model.CommentsText)
-        @Html.ValidationMessageFor(model => model.CommentsText, "", new { @class = "text-danger" })
-        <input id="addComment" type="button" onclick="" value="Добавить" />
+        <div class="form-group">
+            @Html.TextAreaFor(model => model.CommentsText)
+            @Html.ValidationMessageFor(model => model.CommentsText, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Добавить" class="btn btn-default" />
+            </div>
+        </div>
     </div>
 }

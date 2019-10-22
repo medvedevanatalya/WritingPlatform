@@ -1,10 +1,13 @@
 ﻿@{
     ViewBag.Title = "Произведения";
+
+    List<WritingPlatform.Web.Models.UserViewModel> users = ViewBag.Users;
+    List<WritingPlatform.Web.Models.GenreViewModel> genres = ViewBag.Genres;
 }
 
-<h2>Роли</h2>
+<h2>Произведения</h2>
 
-@Html.ActionLink("Создать произведение", "CreateAndEdit", "User")
+@Html.ActionLink("Создать произведение", "CreateAndEdit", "WriterWork")
 
 <table class="table table-striped">
     <thead>
@@ -17,25 +20,28 @@
         </tr>
     </thead>
     <tbody>
-
-        @{
-            List<WritingPlatform.Web.Models.UserViewModel> users = ViewBag.Users;
-            List<WritingPlatform.Web.Models.GenreViewModel> genres = ViewBag.Genres;
-        }
-
         @foreach (var item in ViewBag.WritersWorks)
         {
 
             string loginUser = users.Where(u => u.Id == item.UserId).First().LoginUser;
             string nameGenre = genres.Where(u => u.Id == item.GenreId).First().NameGenre;
+            string titleWork = item.TitleWork;
         <tr>
-            <td scope="row">@item.TitleWork</td>
+            <td scope="row">@Html.ActionLink(titleWork, "WriterWorkPage", "WriterWork", new { id = item.Id }, null)</td>
             <td scope="row">@nameGenre</td>
             <td scope="row">@loginUser</td>
-            <td scope="row">@item.PublicationDate</td>
+            <td scope="row">@item.PublicationDate.ToShortDateString()</td>
             <td scope="row">@item.WriterWorkText</td>
-            <td scope="row">@Html.ActionLink("Редактировать произведение", "CreateAndEdit", "User", new { id = @item.Id }, null)</td>
-            <td scope="row">@Html.ActionLink("Удалить произведение", "Delete", "User", new { id = @item.Id }, null)</td>
+            @if (User.Identity.IsAuthenticated)
+            {
+                int currentUserId = users.Where(u => u.LoginUser == User.Identity.Name).First().Id;
+
+                if (item.UserId == currentUserId)
+                {
+                    <td scope="row">@Html.ActionLink("Редактировать произведение", "CreateAndEdit", "WriterWork", new { id = @item.Id }, null)</td>
+                    <td scope="row">@Html.ActionLink("Удалить произведение", "Delete", "WriterWork", new { id = @item.Id }, null)</td>
+                }
+            }
         </tr>
 
         }

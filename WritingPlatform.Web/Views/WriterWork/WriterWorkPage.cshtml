@@ -5,21 +5,25 @@
     List<WritingPlatform.Web.Models.UserViewModel> users = ViewBag.Users;
 }
 
-<div>
+<div class="form-horizontal">
     <div>
         <h4>@Model.TitleWork</h4>
-        <p>Автор: @ViewBag.User</p>
         <p>Жанр: @ViewBag.Genre</p>
+        <p>Автор: @ViewBag.User</p>
         <p>Дата публикации: @Model.PublicationDate</p>
         <p>@Model.WriterWorkText</p>
     </div>
 
-    <div>
-        @Html.Partial("Create", "CommentUser");
+    <div class="form-horizontal">
+        @{
+            Html.RenderAction("_Create", "CommentUser", new { writerWorkId = Model.Id });
+         }
     </div>
 
     <div>
         @*@Html.Partial("_CommentsPartialView")*@
+
+        <p>Комментарии</p>
         @foreach (var item in ViewBag.Comments)
         {
             string loginUser = users.Where(u => u.Id == item.UserId).First().LoginUser;
