@@ -10,11 +10,10 @@
     <thead>
         <tr>
             <th scope="col">Название</th>
-            <th scope="col">Текст произведения</th>
             <th scope="col">Жанр</th>
-            <th scope="col">Пользователь</th>
+            <th scope="col">Автор</th>
             <th scope="col">Дата публикации</th>
-            @*<th scope="col">Комментарии</th>*@
+            <th scope="col">Текст произведения</th>
         </tr>
     </thead>
     <tbody>
@@ -29,16 +28,15 @@
 
             string loginUser = users.Where(u => u.Id == item.UserId).First().LoginUser;
             string nameGenre = genres.Where(u => u.Id == item.GenreId).First().NameGenre;
-            <tr>
-                <td scope="row">@item.TitleWork</td>
-                <td scope="row">@item.WriterWorkText</td>
-                <td scope="row">@nameGenre</td>
-                <td scope="row">@loginUser</td>
-                <td scope="row">@item.PublicationDate</td>
-                @*<td scope="row">@item.CommentsUsers</td>*@
-                <td scope="row">@Html.ActionLink("Редактировать произведение", "CreateAndEdit", "User", new { id = @item.Id }, null)</td>
-                <td scope="row">@Html.ActionLink("Удалить произведение", "Delete", "User", new { id = @item.Id }, null)</td>
-            </tr>
+        <tr>
+            <td scope="row">@item.TitleWork</td>
+            <td scope="row">@nameGenre</td>
+            <td scope="row">@loginUser</td>
+            <td scope="row">@item.PublicationDate</td>
+            <td scope="row">@item.WriterWorkText</td>
+            <td scope="row">@Html.ActionLink("Редактировать произведение", "CreateAndEdit", "User", new { id = @item.Id }, null)</td>
+            <td scope="row">@Html.ActionLink("Удалить произведение", "Delete", "User", new { id = @item.Id }, null)</td>
+        </tr>
 
         }
 </table>

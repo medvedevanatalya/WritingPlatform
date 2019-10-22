@@ -18,14 +18,17 @@ namespace WritingPlatform.Web.Controllers
             this.mapper = mapper;
         }
 
-        public ActionResult Index()
+        [Authorize]
+        public ActionResult Index(int? id)
         {
-            var usersBO = DependencyResolver.Current.GetService<UserBO>().GetUsersList();
-            var rolesBO = DependencyResolver.Current.GetService<RoleBO>().GetRolesList();
+            var usersBO = DependencyResolver.Current.GetService<UserBO>();
+            var rolesBO = DependencyResolver.Current.GetService<RoleBO>();
+            var writerWorkBO = DependencyResolver.Current.GetService<WriterWorkBO>();
 
-            ViewBag.Users = usersBO.Select(a => mapper.Map<UserViewModel>(a)).ToList();
-            ViewBag.Roles = rolesBO.Select(a => mapper.Map<RoleViewModel>(a)).ToList();
- 
+            ViewBag.Users = usersBO.GetUsersList().Select(a => mapper.Map<UserViewModel>(a)).ToList();
+            ViewBag.Roles = rolesBO.GetRolesList().Select(a => mapper.Map<RoleViewModel>(a)).ToList();
+            ViewBag.CountWriterWork = writerWorkBO.GetWritersWorksList().Select(m=>mapper.Map<WriterWorkBO>(m)).Where(x=>x.UserId==id).Count();
+
             return View();
         }
 
@@ -34,7 +37,7 @@ namespace WritingPlatform.Web.Controllers
             var rolesBO = DependencyResolver.Current.GetService<RoleBO>();
             var usersBO = DependencyResolver.Current.GetService<UserBO>();
 
-            var usersModel = mapper.Map<UserViewModel>(usersBO);
+            //var usersModel = mapper.Map<UserViewModel>(usersBO);
 
             //if (id == null)
             //{
@@ -44,8 +47,8 @@ namespace WritingPlatform.Web.Controllers
             //else
             //{
                 var usersBOList = usersBO.GetUserById(id);
-                usersModel = mapper.Map<UserViewModel>(usersBOList);
-                ViewBag.Header = "Редактирование Пользователя";
+                var usersModel = mapper.Map<UserViewModel>(usersBOList);
+                ViewBag.Header = "Редактирование профиля";
             //}
             ViewBag.Roles = new SelectList(rolesBO.GetRolesList().Select(m => mapper.Map<RoleViewModel>(m)).ToList(), "Id", "NameRole");
 

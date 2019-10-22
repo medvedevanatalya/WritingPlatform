@@ -26,7 +26,6 @@ namespace WritingPlatform.Web.Controllers
             ViewBag.WritersWorks = writerWorkBO.Select(m => mapper.Map<WriterWorkViewModel>(m)).ToList();
             ViewBag.Users = usersBO.Select(a => mapper.Map<UserViewModel>(a)).ToList();
 
-
             return View();
         }
 
@@ -37,15 +36,14 @@ namespace WritingPlatform.Web.Controllers
 
             var commentUserBO = DependencyResolver.Current.GetService<CommentUserBO>();
             var commentsUsersModel = mapper.Map<CommentUserViewModel>(commentUserBO);
-
             if (id == null)
             {
                 ViewBag.Header = "Создание комментария";
             }
             else
             {
-                var writersWorksBOList = commentUserBO.GetCommentUserById(id);
-                commentsUsersModel = mapper.Map<CommentUserViewModel>(writersWorksBOList);
+                var commentUser = commentUserBO.GetCommentUserById(id);
+                commentsUsersModel = mapper.Map<CommentUserViewModel>(commentUser);
                 ViewBag.Header = "Редактирование комментария";
             }
             ViewBag.Users = new SelectList(usersBO.GetUsersList().Select(m => mapper.Map<UserViewModel>(m)).ToList(), "Id", "LoginUser");
@@ -75,6 +73,33 @@ namespace WritingPlatform.Web.Controllers
             commentUser.Delete(id);
 
             return RedirectToActionPermanent("Index", "CommentUser");
+        }
+
+        public ActionResult Create(int writerWorkId)
+        {
+            var usersBO = DependencyResolver.Current.GetService<UserBO>();
+            var commentUserBO = DependencyResolver.Current.GetService<CommentUserBO>();
+           
+            var commentsUsersModel = mapper.Map<CommentUserViewModel>(commentUserBO);
+
+            var userId = usersBO.GetUserByLogin(User.Identity.Name).Id;
+
+            commentsUsersModel.WriterWorkId = writerWorkId;
+            commentsUsersModel.UserId = userId;
+
+            return View(commentsUsersModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(CommentUserViewModel commentsUsersModel)
+        {
+            var newComment = mapper.Map<CommentUserBO>(commentsUsersModel);
+            if(ModelState.IsValid)
+            {
+                newComment.Save();
+            }
+            ////return RedirectToActionPermanent("Index", "CommentUser");
+            return View(newComment);
         }
     }
 }

@@ -29,6 +29,26 @@ namespace WritingPlatform.Web.Controllers
             return View();
         }
 
+        public ActionResult WriterWorkPage(int id)
+        {
+            var writerWorkBO = DependencyResolver.Current.GetService<WriterWorkBO>().GetWriterWorkById(id);
+            var writerWorkModel = mapper.Map<WriterWorkViewModel>(writerWorkBO);
+
+            var usersBO = DependencyResolver.Current.GetService<UserBO>();
+            var user = usersBO.GetUsersList().Where(u=>u.Id == writerWorkBO.UserId).FirstOrDefault();
+            ViewBag.User = user.LoginUser;
+
+            var genresBO = DependencyResolver.Current.GetService<GenreBO>();
+            var genre = genresBO.GetGenresList().Where(g => g.Id == writerWorkBO.GenreId).FirstOrDefault();
+            ViewBag.Genre = genre.NameGenre;
+
+            var commentsBO = DependencyResolver.Current.GetService<CommentUserBO>();
+            var comments = commentsBO.GetCommentsUsersList().Where(x => x.WriterWorkId == id).ToList();
+            ViewBag.Comments = comments.Select(m => mapper.Map<CommentUserViewModel>(m)).ToList();
+
+            return View(writerWorkModel);
+        }
+
         public ActionResult CreateAndEdit(int? id)
         {
             var usersBO = DependencyResolver.Current.GetService<UserBO>();
@@ -43,10 +63,11 @@ namespace WritingPlatform.Web.Controllers
             }
             else
             {
-                var writersWorksBOList = writerWorkBO.GetWriterWorkById(id);
-                writersWorksModel = mapper.Map<WriterWorkViewModel>(writersWorksBOList);
+                var writerWork = writerWorkBO.GetWriterWorkById(id);
+                writersWorksModel = mapper.Map<WriterWorkViewModel>(writerWork);
                 ViewBag.Header = "Редактирование произведения";
             }
+
             ViewBag.Users = new SelectList(usersBO.GetUsersList().Select(m => mapper.Map<UserViewModel>(m)).ToList(), "Id", "LoginUser");
             ViewBag.Genres = new SelectList(genresBO.GetGenresList().Select(m => mapper.Map<GenreViewModel>(m)).ToList(), "Id", "NameGenre");
 

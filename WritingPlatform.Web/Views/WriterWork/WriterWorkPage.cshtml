@@ -1,0 +1,36 @@
+﻿@model WritingPlatform.Web.Models.WriterWorkViewModel
+@using WritingPlatform.Web.Models;
+@{
+    ViewBag.Title = Model.TitleWork;
+    List<WritingPlatform.Web.Models.UserViewModel> users = ViewBag.Users;
+}
+
+<div>
+    <div>
+        <h4>@Model.TitleWork</h4>
+        <p>Автор: @ViewBag.User</p>
+        <p>Жанр: @ViewBag.Genre</p>
+        <p>Дата публикации: @Model.PublicationDate</p>
+        <p>@Model.WriterWorkText</p>
+    </div>
+
+    <div>
+        @Html.Partial("Create", "CommentUser");
+    </div>
+
+    <div>
+        @*@Html.Partial("_CommentsPartialView")*@
+        @foreach (var item in ViewBag.Comments)
+        {
+            string loginUser = users.Where(u => u.Id == item.UserId).First().LoginUser;
+
+            <div class="comments">
+                <div class="comment dialog">
+                    @Html.Label(loginUser)
+                    <p>@item.CommentsText</p>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>

@@ -39,13 +39,13 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         login = "Ваш логин: " + User.Identity.Name;
-                    
-                        <li>@login</li>
+
+                        <li>@Html.Label(login)</li>
                         <li>@Html.ActionLink("Выход", "LogOut", "Account")</li>
                     }
                     else
                     {
-                        <li>@login</li>
+                        <li>@Html.Label(login)</li>  
                         <li>@Html.ActionLink("Регистрация", "Register", "Account") </li>
                         <li>@Html.ActionLink("Вход", "Login", "Account") </li>
                     }

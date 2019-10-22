@@ -1,39 +1,100 @@
-﻿@{
+﻿@model WritingPlatform.Web.Models.UserViewModel
+
+@{
     ViewBag.Title = "Пользователи";
 }
 
-<h2>Список пользователей</h2>
+@{
+    List<WritingPlatform.Web.Models.RoleViewModel> roles = ViewBag.Roles;
+}
 
-@Html.ActionLink("Регистрация нового пользователя", "Register", "Account")
+@if (User.Identity.IsAuthenticated && this.Model.RoleId != 1)
+{
+    <h2>Мой профиль</h2>
+    @Html.ActionLink("Редактировать профиль", "Edit", "User", new { id = this.Model.Id }, null)
+    @Html.ActionLink("Удалить профиль", "Delete", "User", new { id = this.Model.Id }, null)
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">Логин</th>
-            <th scope="col">E-mail</th>
-            <th scope="col">Роль</th>
-            <th scope="col">IsDelete</th>
-        </tr>
-    </thead>
-    <tbody>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="row">Логин</th>
+                <th scope="row">E-mail</th>
+                <th scope="row">Пароль</th>
+                <th scope="row">Количество произведений</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td scope="col">@this.Model.LoginUser</td>
+                <td scope="col">@this.Model.EmailUser</td>
+                <td scope="col">@this.Model.PasswordUser</td>
+                <td scope="col">@ViewBag.CountWriterWork</td>
+            </tr>
+        </tbody>
+    </table>
+}
 
-        @{
-            List<WritingPlatform.Web.Models.RoleViewModel> roles = ViewBag.Roles;
-        }
+else if (User.Identity.IsAuthenticated && this.Model.RoleId == 1)
+{
+    <h2>Список пользователей</h2>
+    @Html.ActionLink("Регистрация нового пользователя", "Register", "Account")
 
-        @foreach (var item in ViewBag.Users)
-        {
-            if (@item.IsDelete != true)
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Логин</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Роль</th>
+                <th scope="col">IsDelete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Users)
             {
-                string nameRole = roles.Where(u => u.Id == item.RoleId).First().NameRole;
-                <tr>
-                    <td scope="row">@item.LoginUser</td>
-                    <td scope="row">@item.EmailUser</td>
-                    <td scope="row">@nameRole</td>
-                    <td scope="row">@item.IsDelete</td>
-                    <td scope="row">@Html.ActionLink("Редактировать пользователя", "Edit", "User", new { id = @item.Id }, null)</td>
-                    <td scope="row">@Html.ActionLink("Удалить пользователя", "Delete", "User", new { id = @item.Id }, null)</td>
-                </tr>
+                if (@item.IsDelete != true)
+                {
+                    string nameRole = roles.Where(u => u.Id == item.RoleId).First().NameRole;
+                    <tr>
+                        <td scope="row">@item.LoginUser</td>
+                        <td scope="row">@item.EmailUser</td>
+                        <td scope="row">@nameRole</td>
+                        @if (@item.IsDelete == true)
+                        {
+                            <td scope="row">Пользователь удален</td>
+                        }
+                        else
+                        {
+                            <td scope="row"></td>
+                        }
+                        <td scope="row">@Html.ActionLink("Редактировать пользователя", "Edit", "User", new { id = @item.Id }, null)</td>
+                        <td scope="row">@Html.ActionLink("Удалить пользователя", "Delete", "User", new { id = @item.Id }, null)</td>
+                    </tr>
+                }
             }
-        }
-</table>
+    </table>
+}
+
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Логин</th>
+                <th scope="col">E-mail</th>
+                <th scope="row">Количество произведений</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Users)
+            {
+                if (@item.IsDelete != true)
+                {
+                    <tr>
+                        <td scope="row">@item.LoginUser</td>
+                        <td scope="row">@item.EmailUser</td>
+                        <td scope="col">@ViewBag.CountWriterWork</td>
+                    </tr>
+                }
+            }
+    </table>
+}

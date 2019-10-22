@@ -1,0 +1,19 @@
+﻿<link rel="stylesheet" href="~/Content/Styles.css" />
+ 
+@{ 
+    List<WritingPlatform.Web.Models.UserViewModel> users = ViewBag.Users; 
+}
+
+<div>
+    @foreach (var item in ViewBag.CommentsUsers)
+    {
+        string loginUser = users.Where(u => u.Id == item.UserId).First().LoginUser;
+
+        <div class="comments">
+            <div class="comment dialog">
+                @Html.Label(loginUser)
+                <p>@item.CommentsText</p>
+            </div>
+        </div>
+    }
+</div>
