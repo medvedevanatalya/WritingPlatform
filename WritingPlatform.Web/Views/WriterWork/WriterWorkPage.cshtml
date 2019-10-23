@@ -7,7 +7,7 @@
 
 <div class="form-horizontal">
     <div>
-        <h4>@Model.TitleWork</h4>
+        <h2>@Model.TitleWork</h2>
         <p>Жанр: @ViewBag.Genre</p>
         <p>Автор: @ViewBag.User</p>
         <p>Дата публикации: @Model.PublicationDate</p>
@@ -16,25 +16,13 @@
 
     <div class="form-horizontal">
         @{
-            Html.RenderAction("_Create", "CommentUser", new { writerWorkId = Model.Id });
+            Html.RenderAction("CreateAndEdit", "CommentUser", new { id = Model.Id });
          }
     </div>
 
-    <div>
-        @*@Html.Partial("_CommentsPartialView")*@
-
-        <p>Комментарии</p>
-        @foreach (var item in ViewBag.Comments)
-        {
-            string loginUser = users.Where(u => u.Id == item.UserId).First().LoginUser;
-
-            <div class="comments">
-                <div class="comment dialog">
-                    @Html.Label(loginUser)
-                    <p>@item.CommentsText</p>
-                </div>
-            </div>
+    <div class="form-horizontal">
+        @{
+            Html.RenderAction("_CommentsPartialView", "CommentUser", new { writerWorkId = Model.Id });
         }
     </div>
-
 </div>

@@ -16,6 +16,7 @@ namespace WritingPlatform.Web.Controllers
         {
             this.mapper = mapper;
         }
+
         public ActionResult Index()
         {
             var commentUserBO = DependencyResolver.Current.GetService<CommentUserBO>().GetCommentsUsersList();
@@ -55,11 +56,28 @@ namespace WritingPlatform.Web.Controllers
         [HttpPost]
         public ActionResult CreateAndEdit(CommentUserViewModel commentsUsersModel)
         {
+            //var commentUserBO = mapper.Map<CommentUserBO>(commentsUsersModel);
+            //if (ModelState.IsValid)
+            //{
+            //    commentUserBO.Save();
+            //    return RedirectToActionPermanent("Index", "CommentUser");
+            //}
+            //else
+            //{
+            //    return View(commentsUsersModel);
+            //}
+
+
             var commentUserBO = mapper.Map<CommentUserBO>(commentsUsersModel);
             if (ModelState.IsValid)
             {
                 commentUserBO.Save();
-                return RedirectToActionPermanent("Index", "CommentUser");
+                if (Request.IsAjaxRequest())
+                {
+                    ViewBag.Comment = commentUserBO.GetCommentsUsersList().Select(m => mapper.Map<UserViewModel>(m)).ToList();
+                    return PartialView();
+                }
+                return RedirectToAction("Index");
             }
             else
             {
@@ -75,38 +93,77 @@ namespace WritingPlatform.Web.Controllers
             return RedirectToActionPermanent("Index", "CommentUser");
         }
 
+        //[ChildActionOnly]
+        //public ActionResult _Create(int writerWorkId)
+        //{
+        //    //var usersBO = DependencyResolver.Current.GetService<UserBO>();
+        //    var commentUserBO = DependencyResolver.Current.GetService<CommentUserBO>();
+
+        //    var commentsUsersModel = mapper.Map<CommentUserViewModel>(commentUserBO);
+
+        //    //var userId = usersBO.GetUserByLogin(User.Identity.Name).Id;
+
+        //    //commentsUsersModel.WriterWorkId = writerWorkId;
+        //    //commentsUsersModel.UserId = userId;
+
+        //    return PartialView("_Create", commentsUsersModel);
+        //}
+
+        //[HttpPost]
+        //public ActionResult _Create(CommentUserViewModel commentsUsersModel)
+        //{
+        //    var usersBO = DependencyResolver.Current.GetService<UserBO>();
+        //    var userId = usersBO.GetUserByLogin(User.Identity.Name).Id;
+        //    int writerWorkId = commentsUsersModel.WriterWorkId;
+        //    var commentUserBO = mapper.Map<CommentUserBO>(commentsUsersModel);
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        commentUserBO.UserId = userId;
+        //        commentUserBO.WriterWorkId = writerWorkId;
+        //        commentUserBO.Save();
+        //    }
+        //    ////return RedirectToActionPermanent("Index", "CommentUser");
+        //    return View();
+        //}
+
         [ChildActionOnly]
-        public ActionResult _Create(int writerWorkId)
+        public ActionResult _CommentsPartialView(int writerWorkId)
         {
-            //var usersBO = DependencyResolver.Current.GetService<UserBO>();
-            var commentUserBO = DependencyResolver.Current.GetService<CommentUserBO>();
-           
-            var commentsUsersModel = mapper.Map<CommentUserViewModel>(commentUserBO);
+            var usersBO = DependencyResolver.Current.GetService<UserBO>().GetUsersList().ToList();
+            var commentUserBO = DependencyResolver.Current.GetService<CommentUserBO>().GetCommentsUsersList().Where(x => x.WriterWorkId == writerWorkId).ToList();
 
-            //var userId = usersBO.GetUserByLogin(User.Identity.Name).Id;
+            ViewBag.Users = usersBO.Select(a => mapper.Map<UserViewModel>(a)).ToList();
+            ViewBag.CommentsUsers = commentUserBO.Select(m => mapper.Map<CommentUserViewModel>(m)).ToList();
 
-            //commentsUsersModel.WriterWorkId = writerWorkId;
-            //commentsUsersModel.UserId = userId;
-
-            return PartialView("_Create", commentsUsersModel);
+            return PartialView();
         }
 
-        [HttpPost]
-        public ActionResult _Create(CommentUserViewModel commentsUsersModel)
-        {
-            var usersBO = DependencyResolver.Current.GetService<UserBO>();
-            var userId = usersBO.GetUserByLogin(User.Identity.Name).Id;
-            int writerWorkId = commentsUsersModel.WriterWorkId;
-            var commentUserBO = mapper.Map<CommentUserBO>(commentsUsersModel);
 
-            if(ModelState.IsValid)
-            {
-                commentUserBO.UserId = userId;
-                commentUserBO.WriterWorkId = writerWorkId;
-                commentUserBO.Save();
-            }
-            ////return RedirectToActionPermanent("Index", "CommentUser");
-            return View();
-        }
+
+        //private static List<string> _comm = new List<string>();
+        //public ActionResult Index()
+        //{
+        //    var commentUserBO = DependencyResolver.Current.GetService<CommentUserBO>().GetCommentsUsersList().ToList();
+
+        //    return View(commentUserBO);
+        //}
+
+        //[HttpPost]
+        //public ActionResult AddComment(CommentUserViewModel comment)
+        //{
+        //    var commentUserBO = DependencyResolver.Current.GetService<CommentUserBO>().GetCommentsUsersList().ToList();
+        //    commentUserBO.UserId = userId;
+        //    commentUserBO.WriterWorkId = writerWorkId; 
+        //    commentUserBO.Add(comment);
+        //    if (Request.IsAjaxRequest())
+        //    {
+        //        ViewBag.Comment = comment;
+        //        return PartialView();
+        //    }
+
+        //    return RedirectToAction("Index");
+        //}
+
     }
 }

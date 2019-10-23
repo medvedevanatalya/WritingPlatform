@@ -4,11 +4,16 @@
 {
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-horizontal">
-        <h2>Добавить комментарий</h2>
+       
         <div class="form-group">
-            @Html.TextAreaFor(model => model.CommentsText)
-            @Html.ValidationMessageFor(model => model.CommentsText, "", new { @class = "text-danger" })
+            <h4>Добавить комментарий</h4>
+
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.CommentsText, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CommentsText, "", new { @class = "text-danger" })
+            </div>
         </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Добавить" class="btn btn-default" />

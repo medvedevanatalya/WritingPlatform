@@ -4,31 +4,51 @@
 
 <h2>Авторы</h2>
 
-@Html.ActionLink("Создать комментарий", "CreateAndEdit", "CommentUser")
+@*@Html.ActionLink("Создать комментарий", "CreateAndEdit", "CommentUser")
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">Произведение</th>
-            <th scope="col">Пользователь</th>
-            <th scope="col">Комментарий</th>
-        </tr>
-    </thead>
-    @{                
-        List<WritingPlatform.Web.Models.UserViewModel> users = ViewBag.Users;
-        List<WritingPlatform.Web.Models.WriterWorkViewModel> genres = ViewBag.WritersWorks;
-    }
-    <tbody>
-        @foreach (var item in ViewBag.CommentsUsers)
-        {
-            string loginUser = users.Where(u => u.Id == item.UserId).First().LoginUser;
-            string titleWork = genres.Where(u => u.Id == item.WriterWorkId).First().TitleWork;
-        <tr>
-            <td scope="row">@titleWork</td>
-            <td scope="row">@loginUser</td>
-            <td scope="row">@item.CommentsText</td>
-            <td scope="row">@Html.ActionLink("Редактировать комментарий", "CreateAndEdit", "CommentUser", new { id = @item.Id }, null)</td>
-            <td scope="row">@Html.ActionLink("Удалить комментарий", "Delete", "CommentUser", new { id = @item.Id }, null)</td>
-        </tr>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Произведение</th>
+                <th scope="col">Пользователь</th>
+                <th scope="col">Комментарий</th>
+            </tr>
+        </thead>
+        @{
+            List<WritingPlatform.Web.Models.UserViewModel> users = ViewBag.Users;
+            List<WritingPlatform.Web.Models.WriterWorkViewModel> genres = ViewBag.WritersWorks;
         }
-</table>
+        <tbody>
+            @foreach (var item in ViewBag.CommentsUsers)
+            {
+                string loginUser = users.Where(u => u.Id == item.UserId).First().LoginUser;
+                string titleWork = genres.Where(u => u.Id == item.WriterWorkId).First().TitleWork;
+                <tr>
+                    <td scope="row">@titleWork</td>
+                    <td scope="row">@loginUser</td>
+                    <td scope="row">@item.CommentsText</td>
+                    <td scope="row">@Html.ActionLink("Редактировать комментарий", "CreateAndEdit", "CommentUser", new { id = @item.Id }, null)</td>
+                    <td scope="row">@Html.ActionLink("Удалить комментарий", "Delete", "CommentUser", new { id = @item.Id }, null)</td>
+                </tr>
+            }
+    </table>*@
+
+@model IEnumerable<WritingPlatform.Web.Models.CommentUserViewModel>
+
+@section head {
+    <script type="text/javascript"
+            src="@Url.Content("~/scripts/Ajax.js")">
+    </script>
+}
+<h4>Comments</h4>
+<ul id="comments">
+    @foreach (var comment in Model)
+    {
+        <li>@comment</li>
+    }
+</ul>
+<form method="post" id="commentForm" action="@Url.Action("CreateAndEdit")">
+    @Html.TextArea("Comment", new { rows = 5, cols = 50 })
+    <br />
+    <input type="submit" value="Add Comment" />
+</form>
