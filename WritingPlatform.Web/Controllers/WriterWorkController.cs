@@ -37,6 +37,7 @@ namespace WritingPlatform.Web.Controllers
             var usersBO = DependencyResolver.Current.GetService<UserBO>();
             var user = usersBO.GetUsersList().Where(u=>u.Id == writerWorkBO.UserId).FirstOrDefault();
             ViewBag.User = user.LoginUser;
+            ViewBag.Users = usersBO.GetUsersList().Select(a => mapper.Map<UserViewModel>(a)).ToList();
 
             var genresBO = DependencyResolver.Current.GetService<GenreBO>();
             var genre = genresBO.GetGenresList().Where(g => g.Id == writerWorkBO.GenreId).FirstOrDefault();

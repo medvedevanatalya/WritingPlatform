@@ -1,9 +1,10 @@
-﻿ 
-@{ 
+﻿ @{ 
     List<WritingPlatform.Web.Models.UserViewModel> users = ViewBag.Users; 
 }
 
-<div>
+<div id="commentsList"> </div>
+  
+ <div>
     @foreach (var item in ViewBag.CommentsUsers)
     {
         string loginUser = users.Where(u => u.Id == item.UserId).First().LoginUser;

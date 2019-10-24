@@ -32,6 +32,11 @@
             </div>
         </div>
     }
+    else
+    {
+        @Html.HiddenFor(model => model.GenreId)
+        @Html.HiddenFor(model => model.PublicationDate)
+    }
 
     <div class="form-group">
         @Html.LabelFor(model => model.WriterWorkText, htmlAttributes: new { @class = "control-label col-md-2" })

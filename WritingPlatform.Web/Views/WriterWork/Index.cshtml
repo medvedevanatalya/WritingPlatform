@@ -9,7 +9,7 @@
 
 @Html.ActionLink("Создать произведение", "CreateAndEdit", "WriterWork")
 
-<table class="table table-striped">
+@*<table class="table table-striped">
     <thead>
         <tr>
             <th scope="col">Название</th>
@@ -44,4 +44,33 @@
             }
         </tr>
         }
-</table>
+</table>*@
+
+     <div>
+         @foreach(var item in ViewBag.WritersWorks)
+         {  
+            string loginUser = users.Where(u => u.Id == item.UserId).First().LoginUser;
+            string nameGenre = genres.Where(u => u.Id == item.GenreId).First().NameGenre;
+            string titleWork = item.TitleWork;
+
+             <div class="writers-works" style="margin-left:50px;">
+                         <h4>@Html.ActionLink(titleWork, "WriterWorkPage", "WriterWork", new { id = item.Id }, null)</h4>
+                         <p>@nameGenre</p>
+                         <p>@loginUser</p>
+                         <p>@item.PublicationDate.ToShortDateString()</p>
+                         <div class="writer-work-text">@item.WriterWorkText</div>
+                         @if (User.Identity.IsAuthenticated)
+                         {
+                             int currentUserId = users.Where(u => u.LoginUser == User.Identity.Name).First().Id;
+
+                             if (item.UserId == currentUserId)
+                             {
+                                 <div>
+                                     <button type="button">@Html.ActionLink("Редактировать произведение", "CreateAndEdit", "WriterWork", new { id = @item.Id }, null)</button>
+                                     <button type="button">@Html.ActionLink("Удалить произведение", "Delete", "WriterWork", new { id = @item.Id }, null)</button>
+                                 </div>
+                             }
+                         }
+             </div>
+         }
+     </div>

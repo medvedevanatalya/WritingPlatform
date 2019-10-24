@@ -1,6 +1,57 @@
 ﻿body {
     background: #f0f0f0;
 }
+.writers-works {
+    border: 1px solid black;
+    border-radius: 15px;
+    text-align: left;
+    color: black;
+    background-color: ghostwhite;
+    padding: 20px;
+    margin-top: 50px;
+    transition: all 0.2s linear;
+    text-align: left;
+}
+
+.writers-works:hover {
+    background-color: black;
+    color: ghostwhite;
+}
+
+.writer-work-text {
+    border: 1px solid black;
+    border-radius: 5px;
+    text-align: left;
+    color: black;
+    background-color: ghostwhite;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    transition: all 0.2s linear;
+    text-align: left;
+}
+
+.buttonsBooks {
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    font-size: 20px;
+    margin-top: 15px;
+    padding: 5px;
+    text-align: center;
+    vertical-align: middle;
+    transition: all 0.2s linear
+}
+
+.buttonsBooks:hover {
+    background-color: black;
+    color: white;
+    font-size: 24px;
+    border: 1px solid white;
+}
 
 .comments {
     width: 400px;
@@ -12,7 +63,7 @@
 }
 
 .comment p {
-    margin: 0 0 10px 0;
+    margin: 0 0 10px 0;        
 }
 
 .dialog {
@@ -25,19 +76,19 @@
 }
 
 .dialog::after {
-   content: '';
-   display: block;
-   position: absolute;
-   width: 0;
-   height: 0;
-   border-top: 8px solid transparent;
-   border-bottom: 8px solid transparent;
-   border-right: 15px solid #fff;
-   left: -15px;
-   top: 15px;
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 15px solid #fff;
+    left: -15px;
+    top: 15px;
 }
 
-label{
+label {
     color: darkred;
     padding: 15px;
 }

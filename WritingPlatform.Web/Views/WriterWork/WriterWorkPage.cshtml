@@ -3,26 +3,41 @@
 @{
     ViewBag.Title = Model.TitleWork;
     List<WritingPlatform.Web.Models.UserViewModel> users = ViewBag.Users;
+    //int userId = users.Where(u => u.LoginUser == User.Identity.Name).First().Id;
 }
 
-<div class="form-horizontal">
-    <div>
-        <h2>@Model.TitleWork</h2>
-        <p>Жанр: @ViewBag.Genre</p>
-        <p>Автор: @ViewBag.User</p>
-        <p>Дата публикации: @Model.PublicationDate</p>
-        <p>@Model.WriterWorkText</p>
+    <div class="writers-works"  style="margin-left:50px;">
+            <h2>@Model.TitleWork</h2>
+            <p>Жанр: @ViewBag.Genre</p>
+            <p>Автор: @ViewBag.User</p>
+            <p>Дата публикации: @Model.PublicationDate</p>
+            <div class="writer-work-text">@Model.WriterWorkText</div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                var currentUserId = users.Where(u => u.LoginUser == User.Identity.Name).First().Id;
+
+                if (Model.UserId == currentUserId)
+                {
+                    <div>
+                        <button type="button">@Html.ActionLink("Редактировать произведение", "CreateAndEdit", "WriterWork", new { id = @Model.Id }, null)</button>
+                        <button type="button">@Html.ActionLink("Удалить произведение", "Delete", "WriterWork", new { id = @Model.Id }, null)</button>
+                    </div>
+                }
+            }
     </div>
 
-    <div class="form-horizontal">
-        @{
-            Html.RenderAction("CreateAndEdit", "CommentUser", new { id = Model.Id });
-         }
-    </div>
-
-    <div class="form-horizontal">
-        @{
-            Html.RenderAction("_CommentsPartialView", "CommentUser", new { writerWorkId = Model.Id });
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="form-horizontal">
+                @{
+                    Html.RenderAction("_Create", "CommentUser", new { writerWorkId = Model.Id });
+                }
+            </div>
         }
-    </div>
-</div>
+
+        <div class="form-horizontal">
+            @{
+                Html.RenderAction("_CommentsPartialView", "CommentUser", new { writerWorkId = Model.Id });
+            }
+        </div>
+ 
