@@ -20,13 +20,13 @@ namespace WritingPlatform.DataLayer.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
 
-            Roles roleAdmin = new Roles { Id = 1, NameRole = "admin" };
-            Roles roleUser = new Roles { Id = 2, NameRole = "user" };
-            context.Roles.AddOrUpdate(roleAdmin); 
-            context.Roles.AddOrUpdate(roleUser);
+            //Roles roleAdmin = new Roles { Id = 1, NameRole = "admin" };
+            //Roles roleUser = new Roles { Id = 2, NameRole = "user" };
+            //context.Roles.AddOrUpdate(roleAdmin); 
+            //context.Roles.AddOrUpdate(roleUser);
 
-            Users user = new Users { Id = 1, EmailUser = "admin@mail.ru", LoginUser = "admin", PasswordUser = "admin", IsDelete = false, RoleId = roleAdmin.Id };
-            context.Users.AddOrUpdate(user);  
+            //Users user = new Users { Id = 1, EmailUser = "admin@mail.ru", LoginUser = "admin", PasswordUser = "admin", IsDelete = false, RoleId = roleAdmin.Id };
+            //context.Users.AddOrUpdate(user);  
         }
     }
 }

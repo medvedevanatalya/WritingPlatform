@@ -10,6 +10,7 @@ namespace WritingPlatform.DataLayer
         public Model1()
             : base("name=Model1")
         {
+            Database.SetInitializer<Model1>(new WritingPlatformInitializer());
         }
 
         public virtual DbSet<CommentsUsers> CommentsUsers { get; set; }

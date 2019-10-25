@@ -33,17 +33,17 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Добавить произведение", "CreateAndEdit", "WriterWork")</li>
-                       
-                        login = "Ваш логин: " + User.Identity.Name;
-                        <li>@Html.Label(login)</li>
-                        <li>@Html.ActionLink("Выход", "LogOut", "Account")</li>
-
-                        if (login == "admin")
+                        if (User.Identity.Name == "admin")
                         {
                             <li>@Html.ActionLink("Жанры", "Index", "Genre")</li>
                             <li>@Html.ActionLink("Роли", "Index", "Roles")</li>
                         }
+
+                        <li>@Html.ActionLink("Добавить произведение", "CreateAndEdit", "WriterWork")</li>
+
+                        login = "Ваш логин: " + User.Identity.Name;
+                        <li>@Html.Label(login)</li>
+                        <li>@Html.ActionLink("Выход", "LogOut", "Account")</li>
                     }
                     else
                     {

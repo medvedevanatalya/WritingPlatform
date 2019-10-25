@@ -67,6 +67,7 @@
     <Compile Include="UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
     <Compile Include="UnitOfWork\UnitOfWorkFactory.cs" />
+    <Compile Include="WritingPlatformInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
