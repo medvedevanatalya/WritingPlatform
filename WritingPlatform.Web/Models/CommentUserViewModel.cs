@@ -17,7 +17,7 @@ namespace WritingPlatform.Web.Models
         public int WriterWorkId { get; set; }
 
         [Required(ErrorMessage = "Поле Комментарий обязательно к заполнению")]
-        [StringLength(200, MinimumLength = 3, ErrorMessage = "Длина строки не менее 3-х символов и не более 200")]
+        [StringLength(1000, MinimumLength = 1, ErrorMessage = "Комментарий должен содержать миниму 1 символ")]
         [Display(Name = "Комментарий")]
         public string CommentsText { get; set; }
     }

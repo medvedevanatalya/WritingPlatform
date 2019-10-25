@@ -1,28 +1,29 @@
 ﻿body {
-    background: #f0f0f0;
+    background: darkseagreen;
+    color: darkslategray;
 }
 .writers-works {
-    border: 1px solid black;
+    border: 1px solid darkseagreen;
     border-radius: 15px;
     text-align: left;
-    color: black;
-    background-color: ghostwhite;
+    color: darkslategray;
+    background-color: aliceblue;
     padding: 20px;
     margin-top: 50px;
     transition: all 0.2s linear;
     text-align: left;
 }
 
-.writers-works:hover {
-    background-color: black;
-    color: ghostwhite;
-}
+    .writers-works:hover {
+        background-color: darkslategrey;
+        color: ghostwhite;
+    }
 
 .writer-work-text {
-    border: 1px solid black;
-    border-radius: 5px;
+    border: 1px solid lavender;
+    border-radius: 10px;
     text-align: left;
-    color: black;
+    color: darkslategrey;
     background-color: ghostwhite;
     padding: 20px;
     margin-top: 20px;
@@ -30,35 +31,21 @@
     transition: all 0.2s linear;
     text-align: left;
 }
-
-.buttonsBooks {
-    display: flex;
-    justify-content: center;
-    border: 1px solid black;
-    border-radius: 10px;
-    background-color: white;
-    color: black;
-    font-size: 20px;
-    margin-top: 15px;
-    padding: 5px;
-    text-align: center;
-    vertical-align: middle;
-    transition: all 0.2s linear
+.writer-work-text > textarea {
+    width: 300px;
+    max-width: 1000px;
+    height: 200px;
+    border: inset;
+    background-color: aliceblue;
 }
 
-.buttonsBooks:hover {
-    background-color: black;
-    color: white;
-    font-size: 24px;
-    border: 1px solid white;
-}
 
 .comments {
-    width: 400px;
+    width: 100%;
 }
 
 .comment {
-    width: 100%;
+    width: 80%;
     margin-bottom: 20px;
 }
 
@@ -75,6 +62,11 @@
     margin-left: 20px;
 }
 
+    .dialog > label {
+        color: darkslategrey;
+        font-weight: bolder;
+    }
+
 .dialog::after {
     content: '';
     display: block;
@@ -89,6 +81,20 @@
 }
 
 label {
-    color: darkred;
+    color: floralwhite;
     padding: 15px;
+}
+
+textarea {
+    width: 500px;
+    max-width: 1000px;
+    height: 200px;
+    border: inset;
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+
+.add-comment{
+    margin-top: 50px;
+    margin-bottom: 50px;
 }

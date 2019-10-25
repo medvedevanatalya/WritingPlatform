@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title – приложение ASP.NET</title>
@@ -26,26 +26,29 @@
 
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>*@
-                    @*<li>@Html.ActionLink("О программе", "About", "Home")</li>*@
-                    @*<li>@Html.ActionLink("Контакт", "Contact", "Home")</li>*@
-
-
                     <li>@Html.ActionLink("Главная", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Жанры", "Index", "Genre")</li>
+
+                    <li>@Html.ActionLink("Авторы", "Index", "User")</li>
                     <li>@Html.ActionLink("Произведения", "Index", "WriterWork")</li>
-                    <li>@Html.ActionLink("Комментарии", "Index", "CommentUser")</li>
 
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <li>@Html.ActionLink("Добавить произведение", "CreateAndEdit", "WriterWork")</li>
+                       
                         login = "Ваш логин: " + User.Identity.Name;
-
                         <li>@Html.Label(login)</li>
                         <li>@Html.ActionLink("Выход", "LogOut", "Account")</li>
+
+                        if (login == "admin")
+                        {
+                            <li>@Html.ActionLink("Жанры", "Index", "Genre")</li>
+                            <li>@Html.ActionLink("Роли", "Index", "Roles")</li>
+                        }
                     }
                     else
                     {
-                        <li>@Html.Label(login)</li>  
+                        <li>@Html.Label(login)</li>
+
                         <li>@Html.ActionLink("Регистрация", "Register", "Account") </li>
                         <li>@Html.ActionLink("Вход", "Login", "Account") </li>
                     }
@@ -57,7 +60,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
+            @*<p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>*@
         </footer>
     </div>
 

@@ -43,10 +43,6 @@ namespace WritingPlatform.Web.Controllers
             var genre = genresBO.GetGenresList().Where(g => g.Id == writerWorkBO.GenreId).FirstOrDefault();
             ViewBag.Genre = genre.NameGenre;
 
-            var commentsBO = DependencyResolver.Current.GetService<CommentUserBO>();
-            var comments = commentsBO.GetCommentsUsersList().Where(x => x.WriterWorkId == id).ToList();
-            ViewBag.Comments = comments.Select(m => mapper.Map<CommentUserViewModel>(m)).ToList();
-
             return View(writerWorkModel);
         }
 

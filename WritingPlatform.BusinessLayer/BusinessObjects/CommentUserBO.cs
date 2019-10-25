@@ -54,25 +54,26 @@ namespace WritingPlatform.BusinessLayer.BusinessObjects
             unitOfWork.Save();
         }
 
-        void Update(IUnitOfWork unitOfWork)
-        {
-            var commentUser = mapper.Map<CommentsUsers>(this);
-            unitOfWork.CommentUserUoWRepository.Update(commentUser);
-            unitOfWork.Save();
-        }
+        ////void Update(IUnitOfWork unitOfWork)
+        ////{
+        ////    var commentUser = mapper.Map<CommentsUsers>(this);
+        ////    unitOfWork.CommentUserUoWRepository.Update(commentUser);
+        ////    unitOfWork.Save();
+        ////}
 
         public void Save()
         {
             using (var unitOfWork = unitOfWorkFactory.Create())
             {
-                if (Id != 0)
-                {
-                    Update(unitOfWork);
-                }
-                else
-                {
-                    Create(unitOfWork);
-                }
+                //if (Id != 0)
+                //{
+                //    Update(unitOfWork);
+                //}
+                //else
+                //{
+                Create(unitOfWork);
+                //}
+
             }
         }
 
